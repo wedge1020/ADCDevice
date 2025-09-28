@@ -1,8 +1,9 @@
-LIBS = 
-CFLAGS = -Wall -fPIC --std=gnu18 $(LIBS)
+LIBS = -lwiringPi
+CLIBS = $(LIBS) -lADCDevice
+CFLAGS = -Wall -fPIC --std=gnu18
 INC = 
 CC = gcc
-PROJ = ADCDevice
+PROJ = ADC
 all: $(PROJ)
 
 debug: CFLAGS += -DDEBUG -g
@@ -10,8 +11,9 @@ debug: DEBUG = debug
 debug: $(PROJ)
 
 $(PROJ):
-	$(CC) $(CFLAGS) -c $(PROJ).c -o $(PROJ).o
-	$(CC) -shared $(CFLAGS) -o lib$(PROJ).so $(PROJ).o
+	$(CC) $(CFLAGS) -c $(PROJ)Device.c -o $(PROJ)Device.o $(LIBS)
+	$(CC) -shared $(CFLAGS) -o lib$(PROJ)Device.so $(PROJ)Device.o $(LIBS)
+	$(CC) $(CFLAGS) $(PROJ)Test.c -o $(PROJ)Test $(CLIBS)
 
 install:
 	@echo -n "Initializing installation directories ... "
@@ -26,4 +28,4 @@ install:
 	@echo "INSTALLATION COMPLETE"
 
 clean:
-	@rm -vrf .*.sw[op] *.o lib$(PROJ).so *.save* *~ core
+	@rm -vrf .*.sw[op] *.o lib$(PROJ)Device.so $(PROJ)Test *.save* *~ core

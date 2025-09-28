@@ -193,25 +193,56 @@ int PCF8591_analogWrite (ADCDevice *adc, int value)
     return (wiringPiI2CWriteReg8 (adc -> _fd, adc -> cmd, value));
 }
 
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// Initialize the ADS7830 ADC module
+//
 void init_ADS7830 (ADCDevice **adc)
 {
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Initialize ADCDevice attributes to ADS7830 settings
+    //
     (*adc) -> address      = 0x4b;
     (*adc) -> cmd          = 0x84;
 
-    (*adc) -> detectI2C (&(*adc), (*adc) -> address);
+    ////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Attempt to detect the ADS7830
+    //
+    if ((*adc) -> detectI2C (&(*adc), (*adc) -> address))
+    {
+        ////////////////////////////////////////////////////////////////////////////////
+        //
+        // Establish analogRead and analogWrite functions per detected ADC module
+        //
+        (*adc) -> analogRead   = &ADS7830_analogRead;
+        (*adc) -> analogWrite  = &ADS7830_analogWrite;
 
-    (*adc) -> analogRead   = &ADS7830_analogRead;
-    (*adc) -> analogWrite  = &ADS7830_analogWrite;
-
-    fprintf (stdout, "[ADCDevice] ADS7830 setup successful!\n");
+        fprintf (stdout, "[ADCDevice] ADS7830 setup successful!\n");
+    }
+    else
+    {
+        fprintf (stderr, "[ERROR] ADS7830 setup FAILED!\n");
+    }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// a ADS7830-compatible analogRead function (to be used with ADCDevice function
+// pointer).
+//
 int ADS7830_analogRead (ADCDevice *adc, int chn)
 {
     wiringPiI2CWrite (adc -> _fd, adc -> cmd | (((chn << 2 | chn >> 1) & 0x07) << 4));
     return (wiringPiI2CRead (adc -> _fd));
 }
 
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// a ADS7830-compatible analogWrite function (to be used with ADCDevice function
+// pointer).
+//
 int ADS7830_analogWrite (ADCDevice *adc, int value)
 {
     return (wiringPiI2CWriteReg8 (adc -> _fd, adc -> cmd, value));

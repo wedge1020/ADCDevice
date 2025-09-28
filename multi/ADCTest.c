@@ -38,7 +38,7 @@ int main (void)
     {
         adcValue  = adc -> analogRead (adc, 0);     // read analog value of A0 pin
         voltage   = (float) adcValue / 255.0 * 3.3; // Calculate voltage
-        fprintf (stdout, "ADC value: %d,\tVoltage:   %.2fV\n", adcValue, voltage);
+        fprintf (stdout, "ADC value: %3d, Voltage:   %.2fV\n", adcValue, voltage);
         delay (100);
     }
 
