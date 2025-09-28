@@ -13,6 +13,8 @@ debug: $(PROJ)
 $(PROJ):
 	$(CC) $(CFLAGS) -c $(PROJ)Device.c -o $(PROJ)Device.o $(LIBS)
 	$(CC) -shared $(CFLAGS) -o lib$(PROJ)Device.so $(PROJ)Device.o $(LIBS)
+
+test:
 	$(CC) $(CFLAGS) $(PROJ)Test.c -o $(PROJ)Test $(CLIBS)
 
 install:

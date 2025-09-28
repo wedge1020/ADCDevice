@@ -7,7 +7,7 @@ ADS7830 with wiringPi.
 
 These ports are based on code  originally written in C++ for the Freenove
 Raspberry Pi  electronics kits and  circuits presented in  their Tutorial
-(specifically, their FNK0020 kit).
+(specifically, their `FNK0020` kit).
 
 Source repository can be found at:
 
@@ -29,11 +29,11 @@ pointer to an instance of the ADCDevice.
 ### global: de-OOP-ified single module capable ADCDevice via global variable
 
 The  de-OOP-ified implementation  above  gets a  lot cleaner-looking  if,
-instead of the  ability to support multiple ADCDevice  instances, we only
+instead of the ability to support multiple `ADCDevice` instances, we only
 allow for one, and make that instance a **global** variable.
 
-The same selection of ADCDevice  modules is available, just we're locking
-in to using exactly one per program.
+The  same  selection of  `ADCDevice`  modules  is available,  just  we're
+locking in to using exactly one per program.
 
 This  will  likely be  an  acceptable  "average  case"  for a  number  of
 utilizations, especially if following the Freenove Tutorial.
@@ -41,13 +41,17 @@ utilizations, especially if following the Freenove Tutorial.
 ## Building
 
 These  implementations,  like  their   Freenove  C++  ancestor,  build  a
-shared-object  library  (libADCDevice.so)  which is  installed  with  the
+shared-object  library (`libADCDevice.so`)  which is  installed with  the
 `ADCDevice.h`  header  file,  into  the system  directories  where  these
 resources are typically found.
 
 Instead of a `build.sh` script, a UNIX Makefile is provided that does the
 work of building and installing.
 
-To build, simply run: `make`
+  0. ensure you have the `wiringPi` package installed, and I2C enabled
+  1. build the library by running: `make`
+  2. install the library by running: `sudo make install`
+  3. build the `ADCTest` program: `make test`
+  4. run the `ADCTest` program: `./ADCTest`
 
-To install, run: `sudo make install`
+If there are any errors, be sure to address them before proceeding.
