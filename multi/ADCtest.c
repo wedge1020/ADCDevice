@@ -1,44 +1,42 @@
 /***
- *** Filename    : ADCTest.c
+ *** Filename    : ADCtest.c
  *** Description : Use ADC module to read the voltage value of potentiometer.
- ***               Uses simplified C port of ADCDevice library.
+ ***               Uses C port of ADCDevice library.
  ***               Based on the Freenove ADC code in:
  ***                 Code/C_Code/07.1.1_ADC/ADC.cpp
- *** Modification: 2025/09/28    
+ *** Modification: 2025/09/27    
  ***
  **************************************************************************************/
-        
+
 #include <wiringPi.h>
 #include <stdio.h>
 #include <ADCDevice.h>
-        
-ADCDevice *adc;
 
 int main (void)
-{       
+{
     ////////////////////////////////////////////////////////////////////////////////////
-    //  
+    //
     // Declare and initialize variables
-    //  
+    //
     int        adcValue  = 0;
     float      voltage   = 0.0;
+    ADCDevice *adc       = NULL;
 
     ////////////////////////////////////////////////////////////////////////////////////
-    //  
+    //
     // Initialize the ADCDevice library
     //
-    adc                  = NULL;
-    init_ADCDevice ();
+    init_ADCDevice (&adc);
 
     fprintf (stdout, "Program is starting (CTRL-c to interrupt) ...\n");
-
+    
     ////////////////////////////////////////////////////////////////////////////////////
     //
     // Main loop: proceed indefinitely until interruption
     //
     while (1)
     {
-        adcValue  = adc -> analogRead (0);          // read analog value of A0 pin
+        adcValue  = adc -> analogRead (adc, 0);     // read analog value of A0 pin
         voltage   = (float) adcValue / 255.0 * 3.3; // Calculate voltage
         fprintf (stdout, "ADC value: %3d, Voltage:   %.2fV\n", adcValue, voltage);
         delay (100);

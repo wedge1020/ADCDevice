@@ -15,7 +15,7 @@ $(PROJ):
 	$(CC) -shared $(CFLAGS) -o lib$(PROJ)Device.so $(PROJ)Device.o $(LIBS)
 
 test:
-	$(CC) $(CFLAGS) $(PROJ)Test.c -o $(PROJ)Test $(CLIBS)
+	$(CC) $(CFLAGS) $(PROJ)test.c -o $(PROJ)test $(CLIBS)
 
 install:
 	@echo -n "Initializing installation directories ... "
@@ -30,4 +30,4 @@ install:
 	@echo "INSTALLATION COMPLETE"
 
 clean:
-	@rm -vrf .*.sw[op] *.o lib$(PROJ)Device.so $(PROJ)Test *.save* *~ core
+	@rm -vrf .*.sw[op] *.o lib$(PROJ)Device.so $(PROJ)test *.save* *~ core

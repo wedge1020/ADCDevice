@@ -98,6 +98,11 @@ int  init_ADCDevice ()
             exit (1);
         }
     }
+    else
+    {
+        fprintf (stderr, "[ERROR] wiringPi initialization failed!\n");
+        exit (2);
+    }
 
     return (status);
 }
